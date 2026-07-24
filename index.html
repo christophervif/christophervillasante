@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Christopher Villasante — Aerospace Engineer & Digital Solutions</title>
+<meta name="description" content="Mechanical engineer in the aerospace industry, specializing in aircraft modifications, certification and digital transformation." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#ffffff;--bg-soft:#f6f7f9;--bg-softer:#eef1f5;
+    --ink:#0f1720;--ink-soft:#3d4855;--muted:#6b7480;--line:#e5e9ef;
+    --accent:#2551e6;--accent-soft:#eaefff;
+    --radius:16px;--maxw:1080px;--ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:'JetBrains Mono',monospace}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.78);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid transparent;transition:border-color .3s var(--ease),box-shadow .3s var(--ease)}
+  header.scrolled{border-bottom-color:var(--line);box-shadow:0 1px 20px rgba(15,23,32,.03)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{font-weight:700;font-size:16px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+  .nav-links{display:flex;align-items:center;gap:26px}
+  .nav-links a{font-size:14px;font-weight:500;color:var(--ink-soft);transition:color .2s}
+  .nav-links a:hover{color:var(--accent)}
+  .lang-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:12px;font-weight:600}
+  .lang-toggle button{background:none;border:none;padding:6px 12px;cursor:pointer;color:var(--muted);font-family:inherit;font-weight:600;transition:.2s}
+  .lang-toggle button.active{background:var(--ink);color:#fff}
+  .menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:40px;height:38px;cursor:pointer;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+  .menu-btn span{width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+
+  .hero{padding:96px 0 76px;position:relative}
+  .hero-grid{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(var(--bg-softer) 1px,transparent 1px),linear-gradient(90deg,var(--bg-softer) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 55% at 70% 0%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 80% 55% at 70% 0%,#000 20%,transparent 75%);opacity:.7}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:6px 14px;border-radius:999px}
+  .eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);position:relative}
+  .eyebrow .pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+  @keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(3);opacity:0}}
+  h1{font-size:clamp(38px,6.2vw,66px);line-height:1.03;letter-spacing:-.035em;font-weight:800;margin:22px 0 0}
+  h1 .grad{background:linear-gradient(120deg,var(--accent),#6b34d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{font-size:clamp(17px,2.1vw,20px);color:var(--ink-soft);max-width:620px;margin:24px 0 0}
+  .cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:12px;font-weight:600;font-size:15px;transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(15,23,32,.18)}
+  .btn-ghost{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:70px;border-top:1px solid var(--line);padding-top:38px}
+  .stat .num{font-size:clamp(28px,3.4vw,40px);font-weight:800;letter-spacing:-.03em}
+  .stat .lbl{font-size:13px;color:var(--muted);margin-top:4px}
+
+  section{padding:88px 0;position:relative}
+  .sec-head{margin-bottom:48px;max-width:640px}
+  .sec-tag{font-size:12.5px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
+  .sec-head h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.03em;font-weight:800;margin-top:12px;line-height:1.1}
+  .sec-head p{color:var(--ink-soft);font-size:17px;margin-top:14px}
+
+  .about-body{display:grid;grid-template-columns:1.6fr 1fr;gap:56px;align-items:start}
+  .about-body p{color:var(--ink-soft);font-size:16.5px;margin-bottom:18px}
+  .about-card{background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .about-card h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:18px;font-weight:600}
+  .fact{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+  .fact:last-child{border-bottom:none}
+  .fact span:first-child{color:var(--muted)}
+  .fact span:last-child{font-weight:600;text-align:right}
+
+  .exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .exp-card{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:32px;transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s}
+  .exp-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(15,23,32,.07);border-color:#d4dae2}
+  .exp-icon{width:46px;height:46px;border-radius:12px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+  .exp-icon svg{width:24px;height:24px;stroke:var(--accent)}
+  .exp-card h3{font-size:20px;letter-spacing:-.02em;margin-bottom:12px}
+  .exp-card p{color:var(--ink-soft);font-size:15px;margin-bottom:20px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-size:12.5px;font-weight:500;padding:6px 12px;border-radius:8px;background:var(--bg-soft);border:1px solid var(--line);color:var(--ink-soft)}
+  .tag.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
+
+  .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  .proj{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg);display:flex;flex-direction:column;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+  .proj:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(15,23,32,.08)}
+  .proj-cover{height:150px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .proj-cover svg{width:100%;height:100%;position:absolute;inset:0}
+  .proj-cover img{width:100%;height:100%;object-fit:cover}
+  .c1{background:linear-gradient(135deg,#eef2ff,#dbe4ff)}
+  .c2{background:linear-gradient(135deg,#f0fdf4,#dcfce7)}
+  .c3{background:linear-gradient(135deg,#fef2f2,#fee2e2)}
+  .c4{background:linear-gradient(135deg,#fefce8,#fef08a)}
+  .proj-body{padding:24px;flex:1;display:flex;flex-direction:column}
+  .proj-body .kind{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+  .proj-body h3{font-size:18px;letter-spacing:-.02em;margin:8px 0 10px}
+  .proj-body p{font-size:14.5px;color:var(--ink-soft);flex:1}
+  .proj-foot{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+  .proj-link{margin-top:16px;font-size:14px;font-weight:600;color:var(--accent)}
+  .proj-link:hover{text-decoration:underline}
+
+  /* LinkedIn */
+  #linkedin{background:var(--bg-soft);border-top:1px solid var(--line)}
+  .li-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+  .li-grid iframe{width:100%;border:1px solid var(--line);border-radius:var(--radius);background:#fff}
+  .li-placeholder{border:1.5px dashed #c7cfdb;border-radius:var(--radius);background:var(--bg);padding:34px 24px;text-align:center;color:var(--muted);min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+  .li-placeholder svg{width:34px;height:34px;stroke:var(--accent);opacity:.8}
+  .li-placeholder strong{color:var(--ink);font-size:15px}
+  .li-placeholder span{font-size:13px;max-width:230px}
+  .li-cta{margin-top:34px;text-align:center}
+
+  #contact{background:var(--bg);border-top:1px solid var(--line)}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .contact-links a{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);transition:.2s}
+  .contact-links a:hover{padding-left:8px}
+  .contact-links a:hover .ci{background:var(--ink)}
+  .contact-links a:hover .ci svg{stroke:#fff}
+  .ci{width:44px;height:44px;border-radius:11px;background:var(--bg-soft);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:.25s;flex-shrink:0}
+  .ci svg{width:20px;height:20px;stroke:var(--ink);transition:.25s}
+  .contact-links .ctxt small{display:block;font-size:12.5px;color:var(--muted)}
+  .contact-links .ctxt strong{font-size:15.5px;font-weight:600}
+  form{display:flex;flex-direction:column;gap:14px}
+  .field label{display:block;font-size:13px;font-weight:500;color:var(--ink-soft);margin-bottom:6px}
+  .field input,.field textarea{width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:11px;font-family:inherit;font-size:15px;background:var(--bg);transition:border-color .2s,box-shadow .2s}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .field textarea{resize:vertical;min-height:110px}
+  form .btn-primary{justify-content:center;cursor:pointer;border:none;font-family:inherit}
+  .form-note{font-size:13.5px;padding:12px 14px;border-radius:10px;display:none}
+  .form-note.ok{display:block;background:#ecfdf3;color:#12784a;border:1px solid #b7f0cf}
+  .form-note.err{display:block;background:#fef2f2;color:#c02525;border:1px solid #f5c9c9}
+  .hp{position:absolute;left:-9999px;opacity:0}
+
+  footer{padding:40px 0;text-align:center;border-top:1px solid var(--line)}
+  footer p{font-size:13.5px;color:var(--muted)}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:860px){
+    .about-body,.contact-grid{grid-template-columns:1fr;gap:34px}
+    .exp-grid,.proj-grid,.stats{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:620px){
+    .nav-links{position:fixed;inset:68px 0 auto 0;background:var(--bg);flex-direction:column;align-items:flex-start;gap:0;padding:8px 28px 20px;border-bottom:1px solid var(--line);transform:translateY(-120%);transition:transform .35s var(--ease);z-index:40}
+    .nav-links.open{transform:none}
+    .nav-links a{padding:14px 0;width:100%;border-bottom:1px solid var(--line);font-size:16px}
+    .nav-links .lang-toggle{margin-top:14px}
+    .menu-btn{display:flex}
+    .stats,.exp-grid,.proj-grid{grid-template-columns:1fr}
+    .stats{gap:26px}
+    section{padding:66px 0}
+    .hero{padding:70px 0 56px}
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="wrap">
+    <nav>
+      <a href="#top" class="brand"><span class="dot"></span>Christopher Villasante</a>
+      <div class="nav-links" id="navLinks">
+        <a href="#about" data-en="About" data-es="Perfil">About</a>
+        <a href="#experience" data-en="Expertise" data-es="Experiencia">Expertise</a>
+        <a href="#projects" data-en="Projects" data-es="Proyectos">Projects</a>
+        <a href="#linkedin" data-en="Posts" data-es="Publicaciones">Posts</a>
+        <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button data-lang="en" class="active" onclick="setLang('en')">EN</button>
+          <button data-lang="es" onclick="setLang('es')">ES</button>
+        </div>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-grid"></div>
+    <div class="wrap">
+      <span class="eyebrow reveal"><span class="pulse"></span><span data-en="Aerospace Engineering · Digital Solutions" data-es="Ingeniería Aeroespacial · Soluciones Digitales">Aerospace Engineering · Digital Solutions</span></span>
+      <h1 class="reveal">
+        <span data-en="Engineering precision," data-es="Precisión de ingeniería,">Engineering precision,</span><br>
+        <span class="grad" data-en="built for the digital age." data-es="hecha para la era digital.">built for the digital age.</span>
+      </h1>
+      <p class="lead reveal" data-en="Mechanical engineer with nearly 8 years leading aircraft modifications, certification and airworthiness — now turning manual engineering workflows into scalable digital systems." data-es="Ingeniero mecánico con casi 8 años liderando modificaciones, certificación y aeronavegabilidad de aeronaves — ahora convirtiendo procesos manuales de ingeniería en sistemas digitales escalables.">Mechanical engineer with nearly 8 years leading aircraft modifications, certification and airworthiness — now turning manual engineering workflows into scalable digital systems.</p>
+      <div class="cta reveal">
+        <a href="#projects" class="btn btn-primary" data-en="View my work" data-es="Ver mi trabajo">View my work</a>
+        <a href="#contact" class="btn btn-ghost" data-en="Get in touch" data-es="Contáctame">Get in touch</a>
+      </div>
+      <div class="stats reveal">
+        <div class="stat"><div class="num">8<span style="color:var(--accent)">+</span></div><div class="lbl" data-en="Years in aerospace" data-es="Años en aeroespacial">Years in aerospace</div></div>
+        <div class="stat"><div class="num">4</div><div class="lbl" data-en="Aircraft modified" data-es="Aeronaves modificadas">Aircraft modified</div></div>
+        <div class="stat"><div class="num">30<span style="color:var(--accent)">+</span></div><div class="lbl" data-en="Modifications delivered" data-es="Modificaciones entregadas">Modifications delivered</div></div>
+        <div class="stat"><div class="num">100<span style="color:var(--accent)">%</span></div><div class="lbl" data-en="Certification success" data-es="Éxito en certificación">Certification success</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag" data-en="About" data-es="Perfil">About</div>
+        <h2 data-en="Where aviation rigor meets digital innovation" data-es="Donde el rigor aeronáutico se une a la innovación digital">Where aviation rigor meets digital innovation</h2>
+      </div>
+      <div class="about-body">
+        <div class="reveal">
+          <p data-en="I'm a mechanical engineer specializing in aircraft maintenance, modifications, certification, avionics integration and airworthiness support for both rotary- and fixed-wing aircraft." data-es="Soy ingeniero mecánico especializado en mantenimiento, modificaciones, certificación, integración de aviónica y soporte de aeronavegabilidad de aeronaves de ala rotativa y ala fija.">I'm a mechanical engineer specializing in aircraft maintenance, modifications, certification, avionics integration and airworthiness support for both rotary- and fixed-wing aircraft.</p>
+          <p data-en="I lead multidisciplinary projects from concept through certification and implementation — always ensuring compliance with aviation regulations and certification support before the Peruvian Civil Aviation Authority (DGAC). In aerospace, success isn't measured by cost savings but by airworthiness and compliance — and every project I've led has met its certification objective." data-es="Lidero proyectos multidisciplinarios desde el concepto hasta la certificación e implementación — siempre garantizando el cumplimiento de la normativa aeronáutica y el soporte de certificación ante la Dirección General de Aeronáutica Civil (DGAC). En aeronáutica el éxito no se mide por el ahorro, sino por la aeronavegabilidad y el cumplimiento — y cada proyecto que he liderado ha cumplido su objetivo de certificación.">I lead multidisciplinary projects from concept through certification and implementation — always ensuring compliance with aviation regulations and certification support before the Peruvian Civil Aviation Authority (DGAC). In aerospace, success isn't measured by cost savings but by airworthiness and compliance — and every project I've led has met its certification objective.</p>
+          <p data-en="Beyond traditional engineering, I design and build custom digital solutions — web applications, databases, API integrations, automation and AI-assisted tools — that turn manual, paper-based workflows into scalable systems. In parallel, I founded Kuranko in 2020, leading international sourcing, supply chain and business strategy." data-es="Más allá de la ingeniería tradicional, diseño y construyo soluciones digitales a medida — aplicaciones web, bases de datos, integraciones de API, automatización y herramientas asistidas por IA — que transforman procesos manuales en sistemas escalables. En paralelo, fundé Kuranko en 2020, liderando el sourcing internacional, la cadena de suministro y la estrategia de negocio.">Beyond traditional engineering, I design and build custom digital solutions — web applications, databases, API integrations, automation and AI-assisted tools — that turn manual, paper-based workflows into scalable systems. In parallel, I founded Kuranko in 2020, leading international sourcing, supply chain and business strategy.</p>
+        </div>
+        <div class="about-card reveal">
+          <h3 data-en="At a glance" data-es="En resumen">At a glance</h3>
+          <div class="fact"><span data-en="Field" data-es="Área">Field</span><span data-en="Aerospace Engineering" data-es="Ingeniería Aeroespacial">Aerospace Engineering</span></div>
+          <div class="fact"><span data-en="Experience" data-es="Experiencia">Experience</span><span data-en="~8 years" data-es="~8 años">~8 years</span></div>
+          <div class="fact"><span data-en="Teams led" data-es="Equipos liderados">Teams led</span><span data-en="Up to 6 people" data-es="Hasta 6 personas">Up to 6 people</span></div>
+          <div class="fact"><span data-en="Regulator" data-es="Regulador">Regulator</span><span>DGAC Perú</span></div>
+          <div class="fact"><span data-en="Founder of" data-es="Fundador de">Founder of</span><span>Kuranko (2020)</span></div>
+          <div class="fact"><span data-en="Based in" data-es="Ubicación">Based in</span><span data-en="Peru" data-es="Perú">Peru</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE / SKILLS -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag" data-en="Expertise" data-es="Experiencia">Expertise</div>
+        <h2 data-en="Two disciplines, one engineering mindset" data-es="Dos disciplinas, una misma mentalidad de ingeniería">Two disciplines, one engineering mindset</h2>
+        <p data-en="I combine the discipline of certified aerospace engineering with the speed of modern software and automation." data-es="Combino la disciplina de la ingeniería aeroespacial certificada con la velocidad del software y la automatización moderna.">I combine the discipline of certified aerospace engineering with the speed of modern software and automation.</p>
+      </div>
+      <div class="exp-grid">
+        <div class="exp-card reveal">
+          <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <h3 data-en="Aerospace Engineering" data-es="Ingeniería Aeroespacial">Aerospace Engineering</h3>
+          <p data-en="Leading aircraft modifications, certification and airworthiness from concept to compliance for rotary- and fixed-wing platforms." data-es="Liderando modificaciones, certificación y aeronavegabilidad de aeronaves desde el concepto hasta el cumplimiento, en plataformas de ala rotativa y fija.">Leading aircraft modifications, certification and airworthiness from concept to compliance for rotary- and fixed-wing platforms.</p>
+          <div class="tags">
+            <span class="tag" data-en="Aircraft Modifications" data-es="Modificaciones">Aircraft Modifications</span>
+            <span class="tag" data-en="STC Implementation" data-es="Implementación de STC">STC Implementation</span>
+            <span class="tag" data-en="Certification (DGAC)" data-es="Certificación (DGAC)">Certification (DGAC)</span>
+            <span class="tag" data-en="Avionics Integration" data-es="Integración de Aviónica">Avionics Integration</span>
+            <span class="tag" data-en="Airworthiness" data-es="Aeronavegabilidad">Airworthiness</span>
+            <span class="tag" data-en="Maintenance Planning" data-es="Planificación de Mantenimiento">Maintenance Planning</span>
+            <span class="tag" data-en="Technical Documentation" data-es="Documentación Técnica">Technical Documentation</span>
+            <span class="tag" data-en="Troubleshooting" data-es="Diagnóstico">Troubleshooting</span>
+          </div>
+        </div>
+        <div class="exp-card reveal">
+          <div class="exp-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="m14 4-4 16"/></svg></div>
+          <h3 data-en="Digital Transformation" data-es="Transformación Digital">Digital Transformation</h3>
+          <p data-en="Designing and building web apps, databases, automations and AI-assisted tools that replace manual workflows with scalable digital systems." data-es="Diseñando y construyendo apps web, bases de datos, automatizaciones y herramientas con IA que reemplazan procesos manuales por sistemas digitales escalables.">Designing and building web apps, databases, automations and AI-assisted tools that replace manual workflows with scalable digital systems.</p>
+          <div class="tags">
+            <span class="tag mono">JavaScript</span><span class="tag mono">HTML / CSS</span><span class="tag mono">MySQL</span>
+            <span class="tag mono">API Integration</span><span class="tag mono">Railway</span><span class="tag mono">GitHub</span>
+            <span class="tag mono">Power BI</span>
+            <span class="tag" data-en="AI Platforms" data-es="Plataformas de IA">AI Platforms</span>
+            <span class="tag" data-en="Automation" data-es="Automatización">Automation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS (rendered from data/projects.json via Pages CMS) -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag" data-en="Projects" data-es="Proyectos">Projects</div>
+        <h2 data-en="Selected work" data-es="Trabajo seleccionado">Selected work</h2>
+        <p data-en="A mix of engineering and digital projects, managed and updated through my own admin panel." data-es="Una mezcla de proyectos de ingeniería y digitales, gestionados y actualizados desde mi propio panel de administración.">A mix of engineering and digital projects, managed and updated through my own admin panel.</p>
+      </div>
+      <div class="proj-grid" id="projGrid"><!-- populated by JS --></div>
+    </div>
+  </section>
+
+  <!-- LINKEDIN -->
+  <section id="linkedin">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag">LinkedIn</div>
+        <h2 data-en="Latest posts" data-es="Últimas publicaciones">Latest posts</h2>
+        <p data-en="A selection of what I'm sharing and building. Follow along on LinkedIn for more." data-es="Una selección de lo que comparto y construyo. Sígueme en LinkedIn para ver más.">A selection of what I'm sharing and building. Follow along on LinkedIn for more.</p>
+      </div>
+
+      <!--
+        ═══════════════════════════════════════════════════════════════════
+        HOW TO ADD A LINKEDIN POST HERE:
+        1. On LinkedIn, open the post → click the "···" menu → "Embed this post".
+        2. Copy the <iframe ...></iframe> code LinkedIn gives you.
+        3. Replace ONE ".li-placeholder" block below with that <iframe>.
+        Repeat for as many posts as you want. Delete any placeholders you don't use.
+        ═══════════════════════════════════════════════════════════════════
+      -->
+      <div class="li-grid reveal" id="liGrid">
+        <div class="li-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <strong data-en="Featured post 1" data-es="Publicación destacada 1">Featured post 1</strong>
+          <span data-en="Paste your LinkedIn embed code here." data-es="Pega aquí el código de tu publicación de LinkedIn.">Paste your LinkedIn embed code here.</span>
+        </div>
+        <div class="li-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <strong data-en="Featured post 2" data-es="Publicación destacada 2">Featured post 2</strong>
+          <span data-en="Paste your LinkedIn embed code here." data-es="Pega aquí el código de tu publicación de LinkedIn.">Paste your LinkedIn embed code here.</span>
+        </div>
+        <div class="li-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <strong data-en="Featured post 3" data-es="Publicación destacada 3">Featured post 3</strong>
+          <span data-en="Paste your LinkedIn embed code here." data-es="Pega aquí el código de tu publicación de LinkedIn.">Paste your LinkedIn embed code here.</span>
+        </div>
+      </div>
+
+      <div class="li-cta reveal">
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="btn btn-ghost" id="liProfileBtn" data-en="View my LinkedIn profile" data-es="Ver mi perfil de LinkedIn">View my LinkedIn profile</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag" data-en="Contact" data-es="Contacto">Contact</div>
+        <h2 data-en="Let's build something" data-es="Construyamos algo juntos">Let's build something</h2>
+        <p data-en="Open to engineering roles, digital projects and collaborations. Drop me a line — I read every message." data-es="Abierto a roles de ingeniería, proyectos digitales y colaboraciones. Escríbeme — leo cada mensaje.">Open to engineering roles, digital projects and collaborations. Drop me a line — I read every message.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-links reveal">
+          <a href="mailto:hola@tophervillasante.com">
+            <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+            <span class="ctxt"><small data-en="Email" data-es="Correo">Email</small><strong>hola@tophervillasante.com</strong></span>
+          </a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener" id="linkedinLink">
+            <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>
+            <span class="ctxt"><small>LinkedIn</small><strong data-en="Connect with me" data-es="Conéctate conmigo">Connect with me</strong></span>
+          </a>
+          <a href="#" id="siteLink">
+            <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></span>
+            <span class="ctxt"><small data-en="Website" data-es="Sitio web">Website</small><strong>tophervillasante.com</strong></span>
+          </a>
+        </div>
+
+        <form class="reveal" id="contactForm">
+          <!-- Sends through a Cloudflare Pages Function -> Resend. See functions/api/contact.js -->
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+          <div class="field">
+            <label data-en="Name" data-es="Nombre">Name</label>
+            <input type="text" name="name" required />
+          </div>
+          <div class="field">
+            <label data-en="Email" data-es="Correo">Email</label>
+            <input type="email" name="email" required />
+          </div>
+          <div class="field">
+            <label data-en="Message" data-es="Mensaje">Message</label>
+            <textarea name="message" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitBtn" data-en="Send message" data-es="Enviar mensaje">Send message</button>
+          <div class="form-note" id="formNote"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© <span id="year"></span> Christopher Villasante · <span data-en="Aerospace Engineering & Digital Solutions" data-es="Ingeniería Aeroespacial y Soluciones Digitales">Aerospace Engineering & Digital Solutions</span></p>
+  </div>
+</footer>
+
+<script>
+  // ================= LANGUAGE =================
+  function setLang(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-en]').forEach(el=>{
+      const val = el.getAttribute('data-'+lang);
+      if(val!==null) el.textContent = val;
+    });
+    document.querySelectorAll('.lang-toggle button').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
+    renderProjects(); // project cards are dynamic — re-render in the chosen language
+    try{ localStorage && localStorage.setItem('lang',lang); }catch(e){}
+  }
+
+  // ================= PROJECTS (Pages CMS driven) =================
+  // Default content used if data/projects.json can't be loaded (e.g. opening the file locally).
+  const DEFAULT_PROJECTS = [
+    { kind:"Entrepreneurship", kind_es:"Emprendimiento", title:"Kuranko", title_es:"Kuranko",
+      description:"International sourcing venture founded in 2020 — supply chain, business strategy and digital innovation, scaled as a lean operation.",
+      description_es:"Emprendimiento de sourcing internacional fundado en 2020 — cadena de suministro, estrategia de negocio e innovación digital, escalado como operación ágil.",
+      tags:["Supply Chain","Strategy"], image:"", link:"" },
+    { kind:"Web App", kind_es:"App Web", title:"Engineering Web Tool", title_es:"Herramienta Web de Ingeniería",
+      description:"Custom web application that digitized a manual engineering workflow — data capture, tracking and reporting in one place.",
+      description_es:"Aplicación web a medida que digitalizó un proceso manual de ingeniería — captura de datos, seguimiento y reportería en un solo lugar.",
+      tags:["JavaScript","MySQL"], image:"", link:"" },
+    { kind:"Automation + AI", kind_es:"Automatización + IA", title:"Workflow Automation", title_es:"Automatización de Procesos",
+      description:"AI-assisted automation that eliminated repetitive manual steps and connected systems through API integrations.",
+      description_es:"Automatización asistida por IA que eliminó pasos manuales repetitivos y conectó sistemas mediante integraciones de API.",
+      tags:["Automation","API"], image:"", link:"" },
+    { kind:"Data / BI", kind_es:"Datos / BI", title:"Analytics Dashboard", title_es:"Dashboard de Analítica",
+      description:"Power BI dashboards turning operational data into clear, data-driven decisions for engineering and business teams.",
+      description_es:"Dashboards en Power BI que convierten datos operativos en decisiones claras basadas en datos para equipos de ingeniería y negocio.",
+      tags:["Power BI","Reporting"], image:"", link:"" }
+  ];
+  let PROJECTS = DEFAULT_PROJECTS.slice();
+
+  const COVERC = ['c1','c2','c3','c4'];
+  const COVERS = [
+    '<svg viewBox="0 0 400 150" preserveAspectRatio="none"><g stroke="#2551e6" stroke-width="1.2" fill="none" opacity=".5"><path d="M0 110 Q100 60 200 90 T400 70"/><path d="M0 130 Q120 90 220 110 T400 100"/><circle cx="300" cy="55" r="16"/><path d="M284 55h32M300 39v32"/></g></svg>',
+    '<svg viewBox="0 0 400 150" preserveAspectRatio="none"><g stroke="#16a34a" stroke-width="1.2" fill="none" opacity=".5"><rect x="60" y="40" width="280" height="70" rx="6"/><path d="M60 62h280M90 40v70M90 76h40M90 92h60"/><circle cx="75" cy="51" r="3"/></g></svg>',
+    '<svg viewBox="0 0 400 150" preserveAspectRatio="none"><g stroke="#dc2626" stroke-width="1.2" fill="none" opacity=".5"><path d="M40 110V50m0 60h60m-60-30h40m40-30v90m0-90h50"/><circle cx="40" cy="50" r="4"/><circle cx="180" cy="60" r="4"/><path d="M220 90a40 40 0 0 1 80 0"/></g></svg>',
+    '<svg viewBox="0 0 400 150" preserveAspectRatio="none"><g stroke="#ca8a04" stroke-width="1.2" fill="none" opacity=".55"><rect x="70" y="70" width="30" height="40"/><rect x="115" y="50" width="30" height="60"/><rect x="160" y="60" width="30" height="50"/><rect x="205" y="35" width="30" height="75"/><path d="M60 110h220"/></g></svg>'
+  ];
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function pick(p,base){const lang=document.documentElement.lang;return (lang==='es'&&p[base+'_es'])?p[base+'_es']:p[base];}
+  function renderProjects(){
+    const grid=document.getElementById('projGrid'); if(!grid) return;
+    const lang=document.documentElement.lang;
+    grid.innerHTML = PROJECTS.map((p,i)=>{
+      const kind=esc(pick(p,'kind')), title=esc(pick(p,'title')), desc=esc(pick(p,'description'));
+      const cover = p.image
+        ? '<div class="proj-cover"><img src="'+esc(p.image)+'" alt="'+title+'"></div>'
+        : '<div class="proj-cover '+COVERC[i%4]+'">'+COVERS[i%4]+'</div>';
+      const tags = (p.tags||[]).map(t=>'<span class="tag">'+esc(t)+'</span>').join('');
+      const linkTxt = lang==='es'?'Ver proyecto →':'View project →';
+      const link = p.link ? '<a class="proj-link" href="'+esc(p.link)+'" target="_blank" rel="noopener">'+linkTxt+'</a>' : '';
+      return '<article class="proj reveal in">'+cover+'<div class="proj-body"><span class="kind">'+kind+'</span><h3>'+title+'</h3><p>'+desc+'</p><div class="proj-foot">'+tags+'</div>'+link+'</div></article>';
+    }).join('');
+  }
+  // Load CMS content, then render
+  fetch('data/projects.json',{cache:'no-store'})
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(d=>{ if(d&&Array.isArray(d.projects)&&d.projects.length) PROJECTS=d.projects; })
+    .catch(()=>{})
+    .finally(renderProjects);
+
+  // ================= MOBILE MENU =================
+  const menuBtn=document.getElementById('menuBtn'), navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',()=>navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+
+  // ================= HEADER SHADOW =================
+  const header=document.getElementById('header');
+  const onScroll=()=>header.classList.toggle('scrolled',window.scrollY>10);
+  window.addEventListener('scroll',onScroll); onScroll();
+
+  // ================= REVEAL =================
+  const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*60)+'ms';io.observe(el);});
+
+  // ================= CONTACT FORM (Web3Forms) =================
+  const form=document.getElementById('contactForm'), note=document.getElementById('formNote'), submitBtn=document.getElementById('submitBtn');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const lang=document.documentElement.lang;
+    submitBtn.disabled=true;
+    const sending = lang==='es'?'Enviando…':'Sending…';
+    const sendLabel = submitBtn.getAttribute('data-'+lang);
+    submitBtn.textContent=sending;
+    try{
+      const res = await fetch('/api/contact',{
+        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      });
+      const data = await res.json();
+      if(data.success){
+        note.className='form-note ok';
+        note.textContent = lang==='es' ? '¡Gracias! Tu mensaje fue enviado. Te responderé pronto.' : 'Thanks! Your message was sent. I\'ll get back to you soon.';
+        form.reset();
+      } else { throw new Error(data.message||'error'); }
+    }catch(err){
+      note.className='form-note err';
+      note.textContent = lang==='es' ? 'Algo salió mal. Escríbeme directo a hola@tophervillasante.com.' : 'Something went wrong. Email me directly at hola@tophervillasante.com.';
+    }finally{
+      submitBtn.disabled=false; submitBtn.textContent=sendLabel;
+    }
+  });
+
+  // ================= INIT =================
+  document.getElementById('year').textContent=new Date().getFullYear();
+  (function(){let saved='en';try{saved=(localStorage&&localStorage.getItem('lang'))||'en';}catch(e){}; if(saved==='es'){setLang('es');}else{renderProjects();}})();
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+# Pages CMS configuration — https://pagescms.org
+# Log in at https://app.pagescms.org with GitHub, authorize this repository,
+# and you'll get a visual admin panel to manage your projects and images.
+
+media:
+  input: images/uploads       # where uploaded images are stored in the repo
+  output: /images/uploads      # the URL path written into your content
+
+content:
+  - name: projects
+    label: Projects
+    type: file
+    path: data/projects.json
+    fields:
+      - name: projects
+        label: Projects
+        type: object
+        list: true
+        fields:
+          - name: title
+            label: Title (EN)
+            type: string
+          - name: title_es
+            label: Título (ES) — optional
+            type: string
+            required: false
+          - name: kind
+            label: Category (EN)
+            type: string
+          - name: kind_es
+            label: Categoría (ES) — optional
+            type: string
+            required: false
+          - name: description
+            label: Description (EN)
+            type: text
+          - name: description_es
+            label: Descripción (ES) — optional
+            type: text
+            required: false
+          - name: tags
+            label: Tags
+            type: string
+            list: true
+          - name: image
+            label: Image (optional)
+            type: image
+            required: false
+          - name: link
+            label: External link (optional)
+            type: string
+            required: false
