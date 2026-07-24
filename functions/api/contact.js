@@ -21,12 +21,10 @@ export async function onRequestPost(context) {
     const name = (data.name || "").toString().trim();
     const email = (data.email || "").toString().trim();
     const message = (data.message || "").toString().trim();
-    const botcheck = data.botcheck; // honeypot: real users leave this empty
+    const botcheck = data.botcheck;
 
-    // Spam honeypot — silently accept so bots think they succeeded.
     if (botcheck) return json({ success: true });
 
-    // Basic validation
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!name || !message || !emailOk) {
       return json({ success: false, message: "Invalid form data." }, 400);
@@ -47,12 +45,6 @@ export async function onRequestPost(context) {
         reply_to: email,
         subject: `New message from ${name} — tophervillasante.com`,
         text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-        html:
-          `<div style="font-family:system-ui,sans-serif;font-size:15px;color:#111">` +
-          `<p><strong>Name:</strong> ${escapeHtml(name)}</p>` +
-          `<p><strong>Email:</strong> ${escapeHtml(email)}</p>` +
-          `<p style="white-space:pre-wrap;margin-top:16px">${escapeHtml(message)}</p>` +
-          `</div>`,
       }),
     });
 
@@ -65,12 +57,4 @@ export async function onRequestPost(context) {
   } catch (err) {
     return json({ success: false, message: String(err) }, 500);
   }
-}
-
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
