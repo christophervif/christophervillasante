@@ -1,0 +1,48 @@
+{
+  "projects": [
+    {
+      "kind": "Entrepreneurship",
+      "kind_es": "Emprendimiento",
+      "title": "Kuranko",
+      "title_es": "Kuranko",
+      "description": "International sourcing venture founded in 2020 — supply chain, business strategy and digital innovation, scaled as a lean operation.",
+      "description_es": "Emprendimiento de sourcing internacional fundado en 2020 — cadena de suministro, estrategia de negocio e innovación digital, escalado como operación ágil.",
+      "tags": ["Supply Chain", "Strategy"],
+      "image": "",
+      "link": ""
+    },
+    {
+      "kind": "Web App",
+      "kind_es": "App Web",
+      "title": "Engineering Web Tool",
+      "title_es": "Herramienta Web de Ingeniería",
+      "description": "Custom web application that digitized a manual engineering workflow — data capture, tracking and reporting in one place.",
+      "description_es": "Aplicación web a medida que digitalizó un proceso manual de ingeniería — captura de datos, seguimiento y reportería en un solo lugar.",
+      "tags": ["JavaScript", "MySQL"],
+      "image": "",
+      "link": ""
+    },
+    {
+      "kind": "Automation + AI",
+      "kind_es": "Automatización + IA",
+      "title": "Workflow Automation",
+      "title_es": "Automatización de Procesos",
+      "description": "AI-assisted automation that eliminated repetitive manual steps and connected systems through API integrations.",
+      "description_es": "Automatización asistida por IA que eliminó pasos manuales repetitivos y conectó sistemas mediante integraciones de API.",
+      "tags": ["Automation", "API"],
+      "image": "",
+      "link": ""
+    },
+    {
+      "kind": "Data / BI",
+      "kind_es": "Datos / BI",
+      "title": "Analytics Dashboard",
+      "title_es": "Dashboard de Analítica",
+      "description": "Power BI dashboards turning operational data into clear, data-driven decisions for engineering and business teams.",
+      "description_es": "Dashboards en Power BI que convierten datos operativos en decisiones claras basadas en datos para equipos de ingeniería y negocio.",
+      "tags": ["Power BI", "Reporting"],
+      "image": "",
+      "link": ""
+    }
+  ]
+}
