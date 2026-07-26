@@ -1,12 +1,21 @@
-# Pages CMS configuration — https://pagescms.org
-# Log in at https://app.pagescms.org with GitHub, authorize this repository,
-# and you'll get a visual admin panel to manage your projects and images.
-
 media:
-  input: images/uploads       # where uploaded images are stored in the repo
-  output: /images/uploads      # the URL path written into your content
+  input: images/uploads
+  output: /images/uploads
 
 content:
+  - name: social
+    label: LinkedIn & Contact
+    type: file
+    path: data/site.json
+    fields:
+      - name: linkedin_url
+        label: LinkedIn profile URL
+        type: string
+      - name: linkedin_posts
+        label: Featured LinkedIn posts (paste each post's link)
+        type: string
+        list: true
+
   - name: projects
     label: Projects
     type: file
@@ -21,21 +30,21 @@ content:
             label: Title (EN)
             type: string
           - name: title_es
-            label: Título (ES) — optional
+            label: Título (ES)
             type: string
             required: false
           - name: kind
             label: Category (EN)
             type: string
           - name: kind_es
-            label: Categoría (ES) — optional
+            label: Categoría (ES)
             type: string
             required: false
           - name: description
             label: Description (EN)
             type: text
           - name: description_es
-            label: Descripción (ES) — optional
+            label: Descripción (ES)
             type: text
             required: false
           - name: tags
@@ -43,10 +52,10 @@ content:
             type: string
             list: true
           - name: image
-            label: Image (optional)
+            label: Image
             type: image
             required: false
           - name: link
-            label: External link (optional)
+            label: External link
             type: string
             required: false
