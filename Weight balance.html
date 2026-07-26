@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Weight & Balance Calculator — Christopher Villasante</title>
+<meta name="description" content="Interactive aircraft weight & balance calculator with a live center-of-gravity envelope. Built by Christopher Villasante, aerospace engineer." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#ffffff;--bg-soft:#f6f7f9;--bg-softer:#eef1f5;
+    --ink:#0f1720;--ink-soft:#3d4855;--muted:#6b7480;--line:#e5e9ef;
+    --accent:#2551e6;--accent-soft:#eaefff;--ok:#16a34a;--ok-soft:#ecfdf3;--bad:#dc2626;--bad-soft:#fef2f2;
+    --radius:16px;--maxw:1080px;--ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  a{color:inherit;text-decoration:none}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-weight:700;font-size:15px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+  .nav-right{display:flex;align-items:center;gap:18px}
+  .back{font-size:14px;font-weight:500;color:var(--ink-soft)}
+  .back:hover{color:var(--accent)}
+  .lang-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:12px;font-weight:600}
+  .lang-toggle button{background:none;border:none;padding:6px 12px;cursor:pointer;color:var(--muted);font-family:inherit;font-weight:600}
+  .lang-toggle button.active{background:var(--ink);color:#fff}
+
+  .hero{padding:52px 0 28px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:5px 13px;border-radius:999px;text-transform:uppercase;letter-spacing:.06em}
+  h1{font-size:clamp(30px,4.5vw,44px);line-height:1.05;letter-spacing:-.03em;font-weight:800;margin:18px 0 10px}
+  .hero p{color:var(--ink-soft);font-size:17px;max-width:640px}
+
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start;padding-bottom:40px}
+  .panel{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .preset-row{display:flex;gap:10px;align-items:center;margin:14px 0 18px;flex-wrap:wrap}
+  select,.btn{font-family:inherit;font-size:14px}
+  select{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg-soft);font-weight:500;color:var(--ink);cursor:pointer}
+  .btn{padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-weight:600;color:var(--ink-soft);transition:.2s}
+  .btn:hover{border-color:var(--ink);color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600;text-align:left;padding:0 8px 8px}
+  th.num,td.num{text-align:right}
+  td{padding:5px 8px;border-top:1px solid var(--line);font-size:14px;vertical-align:middle}
+  td.station{font-weight:500}
+  input[type=number]{width:100%;max-width:96px;padding:8px 9px;border:1px solid var(--line);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:13px;text-align:right;background:var(--bg);transition:border-color .15s,box-shadow .15s}
+  input[type=number]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  td .moment{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted)}
+  tfoot td{border-top:2px solid var(--ink);font-weight:700;font-size:14.5px;padding-top:10px}
+  tfoot .moment{color:var(--ink);font-weight:700}
+
+  .result{display:flex;gap:14px;margin-top:18px;flex-wrap:wrap}
+  .result-card{flex:1;min-width:120px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--bg-soft)}
+  .result-card .k{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+  .result-card .v{font-size:24px;font-weight:800;letter-spacing:-.02em;font-family:'JetBrains Mono',monospace;margin-top:2px}
+  .result-card .u{font-size:12px;color:var(--muted);font-weight:500}
+  .status{margin-top:16px;padding:13px 16px;border-radius:12px;font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:10px}
+  .status.ok{background:var(--ok-soft);color:var(--ok);border:1px solid #b7f0cf}
+  .status.bad{background:var(--bad-soft);color:var(--bad);border:1px solid #f5c9c9}
+  .status .ic{width:20px;height:20px;flex-shrink:0}
+
+  .chart-wrap{position:relative}
+  svg.chart{width:100%;height:auto;display:block}
+  .axis-label{font-size:11px;fill:var(--muted);font-family:'Inter',sans-serif}
+  .legend{display:flex;gap:18px;margin-top:12px;font-size:12.5px;color:var(--ink-soft);flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .swatch{width:14px;height:14px;border-radius:4px;display:inline-block}
+
+  .disclaimer{margin:8px 0 40px;padding:16px 18px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;color:#92620a;font-size:13px}
+  .disclaimer strong{color:#7c4a02}
+
+  footer{padding:30px 0;border-top:1px solid var(--line);text-align:center}
+  footer p{font-size:13px;color:var(--muted)}
+
+  @media(max-width:820px){ .layout{grid-template-columns:1fr;gap:26px} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="brand"><span class="dot"></span>Christopher Villasante</a>
+      <div class="nav-right">
+        <a href="index.html" class="back" data-en="← Back to site" data-es="← Volver al sitio">← Back to site</a>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button data-lang="en" class="active" onclick="setLang('en')">EN</button>
+          <button data-lang="es" onclick="setLang('es')">ES</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow" data-en="Engineering Tool" data-es="Herramienta de Ingeniería">Engineering Tool</span>
+      <h1 data-en="Weight &amp; Balance Calculator" data-es="Calculador de Peso y Balance">Weight &amp; Balance Calculator</h1>
+      <p data-en="Enter each loading station's weight and arm to compute total weight, moment and center of gravity — then see the result plotted live against the aircraft's CG envelope." data-es="Ingresa el peso y el brazo de cada estación de carga para calcular el peso total, el momento y el centro de gravedad — y ve el resultado graficado en vivo contra la envolvente de CG de la aeronave.">Enter each loading station's weight and arm to compute total weight, moment and center of gravity — then see the result plotted live against the aircraft's CG envelope.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="layout">
+
+      <!-- INPUTS -->
+      <div class="panel">
+        <h2 data-en="Loading" data-es="Carga">Loading</h2>
+        <div class="preset-row">
+          <label style="font-size:13px;color:var(--muted);font-weight:500" data-en="Preset:" data-es="Ejemplo:">Preset:</label>
+          <select id="preset" onchange="applyPreset()">
+            <option value="c172">Cessna 172 (example)</option>
+          </select>
+          <button class="btn" onclick="applyPreset()" data-en="Reset" data-es="Reiniciar">Reset</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th data-en="Station" data-es="Estación">Station</th>
+              <th class="num" data-en="Weight (lb)" data-es="Peso (lb)">Weight (lb)</th>
+              <th class="num" data-en="Arm (in)" data-es="Brazo (in)">Arm (in)</th>
+              <th class="num" data-en="Moment" data-es="Momento">Moment</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+          <tfoot>
+            <tr>
+              <td data-en="Total" data-es="Total">Total</td>
+              <td class="num"><span id="totW" class="moment">0</span></td>
+              <td class="num" data-en="CG →" data-es="CG →">CG →</td>
+              <td class="num"><span id="totM" class="moment">0</span></td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div class="result">
+          <div class="result-card">
+            <div class="k" data-en="Total weight" data-es="Peso total">Total weight</div>
+            <div class="v"><span id="rW">0</span> <span class="u">lb</span></div>
+          </div>
+          <div class="result-card">
+            <div class="k" data-en="Center of gravity" data-es="Centro de gravedad">Center of gravity</div>
+            <div class="v"><span id="rCG">0</span> <span class="u">in</span></div>
+          </div>
+        </div>
+
+        <div class="status ok" id="status">
+          <svg class="ic" id="statusIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <span id="statusText">—</span>
+        </div>
+      </div>
+
+      <!-- CHART -->
+      <div class="panel">
+        <h2 data-en="CG Envelope" data-es="Envolvente de CG">CG Envelope</h2>
+        <div class="chart-wrap">
+          <svg class="chart" id="chart" viewBox="0 0 440 380" role="img" aria-label="CG envelope chart"></svg>
+        </div>
+        <div class="legend">
+          <span><span class="swatch" style="background:var(--accent-soft);border:1px solid var(--accent)"></span><span data-en="Approved envelope" data-es="Envolvente aprobada">Approved envelope</span></span>
+          <span><span class="swatch" style="background:var(--ok)"></span><span data-en="Your loading (in limits)" data-es="Tu carga (en límites)">Your loading (in limits)</span></span>
+          <span><span class="swatch" style="background:var(--bad)"></span><span data-en="Out of limits" data-es="Fuera de límites">Out of limits</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong data-en="Engineering demo — not for flight operations." data-es="Demo de ingeniería — no para operaciones de vuelo.">Engineering demo — not for flight operations.</strong>
+      <span data-en="This tool uses representative Cessna 172 values to illustrate the method. Always use the specific aircraft's approved POH/AFM and current weighing data for real weight &amp; balance." data-es="Esta herramienta usa valores representativos del Cessna 172 para ilustrar el método. Usa siempre el POH/AFM aprobado de la aeronave específica y los datos de pesaje vigentes para un peso y balance real."> This tool uses representative Cessna 172 values to illustrate the method. Always use the specific aircraft's approved POH/AFM and current weighing data for real weight &amp; balance.</span>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© <span id="year"></span> Christopher Villasante · <span data-en="Built to demonstrate engineering + web capability" data-es="Hecho para demostrar capacidad de ingeniería + web">Built to demonstrate engineering + web capability</span></p>
+  </div>
+</footer>
+
+<script>
+  // ---------- Presets ----------
+  const PRESETS = {
+    c172: {
+      // Representative Cessna 172 (normal category). Arms in inches aft of datum.
+      envelope: [ [35.0,1500],[35.0,1950],[38.5,2300],[47.3,2300],[47.3,1500] ],
+      wMin: 1400, wMax: 2400, cgMin: 34, cgMax: 49,
+      stations: [
+        { en:"Empty aircraft", es:"Aeronave vacía", w:1450, a:39.0, fixed:false },
+        { en:"Front seats", es:"Asientos delanteros", w:340, a:37.0 },
+        { en:"Rear seats", es:"Asientos traseros", w:0, a:73.0 },
+        { en:"Fuel (usable)", es:"Combustible (usable)", w:240, a:48.0 },
+        { en:"Baggage", es:"Equipaje", w:20, a:95.0 },
+      ]
+    }
+  };
+  let current = JSON.parse(JSON.stringify(PRESETS.c172));
+
+  // ---------- Render input rows ----------
+  function renderRows(){
+    const lang = document.documentElement.lang;
+    const tb = document.getElementById('rows');
+    tb.innerHTML = current.stations.map((s,i)=>{
+      return '<tr>'+
+        '<td class="station">'+ (lang==='es'?s.es:s.en) +'</td>'+
+        '<td class="num"><input type="number" step="1" min="0" value="'+s.w+'" oninput="upd('+i+',\'w\',this.value)"></td>'+
+        '<td class="num"><input type="number" step="0.1" value="'+s.a+'" oninput="upd('+i+',\'a\',this.value)"></td>'+
+        '<td class="num"><span class="moment" id="m'+i+'">0</span></td>'+
+      '</tr>';
+    }).join('');
+    compute();
+  }
+  function upd(i,key,val){ current.stations[i][key] = parseFloat(val)||0; compute(); }
+
+  // ---------- Compute ----------
+  function compute(){
+    let W=0, M=0;
+    current.stations.forEach((s,i)=>{
+      const m = s.w*s.a; W+=s.w; M+=m;
+      const el=document.getElementById('m'+i); if(el) el.textContent = Math.round(m).toLocaleString();
+    });
+    const cg = W>0 ? M/W : 0;
+    document.getElementById('totW').textContent = Math.round(W).toLocaleString();
+    document.getElementById('totM').textContent = Math.round(M).toLocaleString();
+    document.getElementById('rW').textContent = Math.round(W).toLocaleString();
+    document.getElementById('rCG').textContent = cg.toFixed(1);
+    const inside = pointInPolygon([cg,W], current.envelope) && W<=maxGross();
+    setStatus(inside, W);
+    drawChart(cg, W, inside);
+  }
+  function maxGross(){ return Math.max(...current.envelope.map(p=>p[1])); }
+
+  function setStatus(inside, W){
+    const lang=document.documentElement.lang;
+    const box=document.getElementById('status'), txt=document.getElementById('statusText'), ic=document.getElementById('statusIcon');
+    if(inside){
+      box.className='status ok';
+      ic.innerHTML='<path d="M20 6 9 17l-5-5"/>';
+      txt.textContent = lang==='es' ? 'Dentro de los límites de peso y CG ✓' : 'Within weight and CG limits ✓';
+    } else {
+      box.className='status bad';
+      ic.innerHTML='<circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/>';
+      const over = W>maxGross();
+      txt.textContent = lang==='es'
+        ? (over ? 'Fuera de límites: excede el peso máximo' : 'Fuera de límites: CG fuera de la envolvente')
+        : (over ? 'Out of limits: exceeds max gross weight' : 'Out of limits: CG outside the envelope');
+    }
+  }
+
+  // ---------- Geometry ----------
+  function pointInPolygon(p, poly){
+    let inside=false;
+    for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+      const xi=poly[i][0], yi=poly[i][1], xj=poly[j][0], yj=poly[j][1];
+      const intersect = ((yi>p[1])!==(yj>p[1])) && (p[0] < (xj-xi)*(p[1]-yi)/(yj-yi)+xi);
+      if(intersect) inside=!inside;
+    }
+    return inside;
+  }
+
+  // ---------- Chart ----------
+  function drawChart(cg, W, inside){
+    const svg=document.getElementById('chart');
+    const cfg=current;
+    const padL=52, padR=16, padT=16, padB=42, w=440, h=380;
+    const plotW=w-padL-padR, plotH=h-padT-padB;
+    const x = v => padL + (v-cfg.cgMin)/(cfg.cgMax-cfg.cgMin)*plotW;
+    const y = v => padT + (1-(v-cfg.wMin)/(cfg.wMax-cfg.wMin))*plotH;
+
+    let s='';
+    // grid
+    const xticks=[36,40,44,48], yticks=[1500,1800,2100,2400];
+    xticks.forEach(t=>{ s+='<line x1="'+x(t)+'" y1="'+padT+'" x2="'+x(t)+'" y2="'+(padT+plotH)+'" stroke="#eef1f5"/>'; s+='<text class="axis-label" x="'+x(t)+'" y="'+(h-24)+'" text-anchor="middle">'+t+'</text>'; });
+    yticks.forEach(t=>{ s+='<line x1="'+padL+'" y1="'+y(t)+'" x2="'+(padL+plotW)+'" y2="'+y(t)+'" stroke="#eef1f5"/>'; s+='<text class="axis-label" x="'+(padL-8)+'" y="'+(y(t)+4)+'" text-anchor="end">'+t.toLocaleString()+'</text>'; });
+    // axes labels
+    const lang=document.documentElement.lang;
+    s+='<text class="axis-label" x="'+(padL+plotW/2)+'" y="'+(h-6)+'" text-anchor="middle">'+(lang==='es'?'Centro de gravedad (in)':'Center of gravity (in)')+'</text>';
+    s+='<text class="axis-label" transform="translate(14,'+(padT+plotH/2)+') rotate(-90)" text-anchor="middle">'+(lang==='es'?'Peso (lb)':'Weight (lb)')+'</text>';
+    // envelope polygon
+    const pts=cfg.envelope.map(p=>x(p[0])+','+y(p[1])).join(' ');
+    s+='<polygon points="'+pts+'" fill="'+getVar('--accent-soft')+'" stroke="'+getVar('--accent')+'" stroke-width="1.6"/>';
+    // loading point
+    if(W>0){
+      const px=Math.max(padL,Math.min(padL+plotW,x(cg))), py=Math.max(padT,Math.min(padT+plotH,y(W)));
+      const col = inside ? getVar('--ok') : getVar('--bad');
+      s+='<line x1="'+px+'" y1="'+padT+'" x2="'+px+'" y2="'+(padT+plotH)+'" stroke="'+col+'" stroke-dasharray="3 3" opacity=".4"/>';
+      s+='<line x1="'+padL+'" y1="'+py+'" x2="'+(padL+plotW)+'" y2="'+py+'" stroke="'+col+'" stroke-dasharray="3 3" opacity=".4"/>';
+      s+='<circle cx="'+px+'" cy="'+py+'" r="7" fill="'+col+'" stroke="#fff" stroke-width="2.5"/>';
+    }
+    svg.innerHTML=s;
+  }
+  function getVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+
+  // ---------- Preset / language ----------
+  function applyPreset(){ current = JSON.parse(JSON.stringify(PRESETS[document.getElementById('preset').value])); renderRows(); }
+  function setLang(lang){
+    document.documentElement.lang=lang;
+    document.querySelectorAll('[data-en]').forEach(el=>{ const v=el.getAttribute('data-'+lang); if(v!==null) el.textContent=v; });
+    document.querySelectorAll('.lang-toggle button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+    renderRows();
+    try{ localStorage && localStorage.setItem('lang',lang); }catch(e){}
+  }
+
+  // ---------- Init ----------
+  document.getElementById('year').textContent=new Date().getFullYear();
+  (function(){ let saved='en'; try{ saved=(localStorage&&localStorage.getItem('lang'))||'en'; }catch(e){} if(saved==='es'){ setLang('es'); } else { renderRows(); } })();
+</script>
+</body>
+</html>
