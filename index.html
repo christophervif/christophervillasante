@@ -164,6 +164,7 @@
         <a href="#about" data-en="About" data-es="Perfil">About</a>
         <a href="#experience" data-en="Expertise" data-es="Experiencia">Expertise</a>
         <a href="#projects" data-en="Projects" data-es="Proyectos">Projects</a>
+        <a href="#tools" data-en="Tools" data-es="Herramientas">Tools</a>
         <a href="#linkedin" data-en="Posts" data-es="Publicaciones">Posts</a>
         <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
         <div class="lang-toggle" role="group" aria-label="Language">
@@ -279,6 +280,47 @@
     </div>
   </section>
 
+  <!-- TOOLS -->
+  <style>
+    #tools .tool-card{display:grid;grid-template-columns:1.5fr 1fr;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+    #tools .tool-card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(15,23,32,.09)}
+    #tools .tool-body{padding:38px}
+    #tools .tool-body .kind{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+    #tools .tool-body h3{font-size:clamp(22px,3vw,28px);letter-spacing:-.02em;margin:10px 0 12px}
+    #tools .tool-body p{color:var(--ink-soft);font-size:15.5px;margin-bottom:24px;max-width:420px}
+    #tools .tool-cover{background:linear-gradient(135deg,#eef2ff,#dbe4ff);display:flex;align-items:center;justify-content:center;padding:24px;min-height:200px}
+    #tools .tool-cover svg{width:100%;max-width:230px;height:auto}
+    @media(max-width:720px){ #tools .tool-card{grid-template-columns:1fr} #tools .tool-cover{order:-1} }
+  </style>
+  <section id="tools">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-tag" data-en="Tools" data-es="Herramientas">Tools</div>
+        <h2 data-en="Interactive engineering tools" data-es="Herramientas de ingeniería interactivas">Interactive engineering tools</h2>
+        <p data-en="Real, usable tools I build — the same kind of digital solutions I bring to engineering teams." data-es="Herramientas reales y usables que construyo — el mismo tipo de soluciones digitales que aporto a los equipos de ingeniería.">Real, usable tools I build — the same kind of digital solutions I bring to engineering teams.</p>
+      </div>
+      <a class="tool-card reveal" href="weight-balance.html">
+        <div class="tool-body">
+          <span class="kind" data-en="Aviation · Live calculator" data-es="Aviación · Calculadora en vivo">Aviation · Live calculator</span>
+          <h3 data-en="Weight &amp; Balance Calculator" data-es="Calculador de Peso y Balance">Weight &amp; Balance Calculator</h3>
+          <p data-en="Enter each loading station and watch total weight, moment and center of gravity update live — plotted against the aircraft's approved CG envelope." data-es="Ingresa cada estación de carga y observa el peso total, el momento y el centro de gravedad actualizarse en vivo — graficados contra la envolvente de CG aprobada de la aeronave.">Enter each loading station and watch total weight, moment and center of gravity update live — plotted against the aircraft's approved CG envelope.</p>
+          <span class="btn btn-primary" data-en="Open the tool →" data-es="Abrir la herramienta →">Open the tool →</span>
+        </div>
+        <div class="tool-cover">
+          <svg viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="14" width="180" height="140" rx="8" fill="#fff" stroke="#c7d2fe"/>
+            <line x1="52" y1="30" x2="52" y2="134" stroke="#e5e9ef"/>
+            <line x1="52" y1="134" x2="196" y2="134" stroke="#e5e9ef"/>
+            <polygon points="70,120 70,80 100,50 170,50 170,120" fill="#dbe4ff" stroke="#2551e6" stroke-width="2"/>
+            <line x1="128" y1="30" x2="128" y2="134" stroke="#16a34a" stroke-dasharray="3 3" opacity=".5"/>
+            <line x1="52" y1="86" x2="196" y2="86" stroke="#16a34a" stroke-dasharray="3 3" opacity=".5"/>
+            <circle cx="128" cy="86" r="7" fill="#16a34a" stroke="#fff" stroke-width="2.5"/>
+          </svg>
+        </div>
+      </a>
+    </div>
+  </section>
+
   <!-- LINKEDIN -->
   <section id="linkedin">
     <div class="wrap">
@@ -368,7 +410,6 @@
   </section>
 </main>
 
-  
 <footer>
   <div class="wrap">
     <p>© <span id="year"></span> Christopher Villasante · <span data-en="Aerospace Engineering & Digital Solutions" data-es="Ingeniería Aeroespacial y Soluciones Digitales">Aerospace Engineering & Digital Solutions</span></p>
