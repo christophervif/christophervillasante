@@ -8,5 +8,8 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS"
-  }
+  },
+  "routes": [
+    { "pattern": "tophervillasante.com", "custom_domain": true }
+  ]
 }
