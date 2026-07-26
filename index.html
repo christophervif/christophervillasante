@@ -481,6 +481,27 @@
     .catch(()=>{})
     .finally(renderProjects);
 
+  // ================= LINKEDIN / SOCIAL (Pages CMS driven) =================
+  function liEmbedSrc(url){
+    const s=String(url||'');
+    const m = s.match(/urn:li:(?:activity|share|ugcPost):(\d+)/) || s.match(/activity[-:](\d+)/);
+    return m ? 'https://www.linkedin.com/embed/feed/update/urn:li:activity:'+m[1] : null;
+  }
+  fetch('data/site.json',{cache:'no-store'})
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(s=>{
+      if(s.linkedin_url){
+        const a=document.getElementById('linkedinLink'), b=document.getElementById('liProfileBtn');
+        if(a) a.href=s.linkedin_url; if(b) b.href=s.linkedin_url;
+      }
+      const posts=(s.linkedin_posts||[]).map(liEmbedSrc).filter(Boolean);
+      if(posts.length){
+        const grid=document.getElementById('liGrid');
+        if(grid) grid.innerHTML=posts.map(src=>'<iframe src="'+src+'" height="480" width="100%" style="border:1px solid var(--line);border-radius:var(--radius);background:#fff" frameborder="0" allowfullscreen title="Embedded LinkedIn post"></iframe>').join('');
+      }
+    })
+    .catch(()=>{});
+
   // ================= MOBILE MENU =================
   const menuBtn=document.getElementById('menuBtn'), navLinks=document.getElementById('navLinks');
   menuBtn.addEventListener('click',()=>navLinks.classList.toggle('open'));
